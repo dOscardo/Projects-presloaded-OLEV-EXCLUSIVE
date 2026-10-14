@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Olev Exclusive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-green': '#0A3D2E',
+            'brand-green-light': '#0F5C45',
+            'brand-gold': '#D4AF37',
+            'brand-gold-light': '#E8C94A',
+            'brand-cream': '#F8F5F0',
+            'brand-charcoal': '#1a1a1a',
+          },
+          fontFamily: {
+            'heading': ['"Playfair Display"', 'serif'],
+            'body': ['"Inter"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS-only animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+    .animate-slide-left { animation: slideInLeft 0.8s ease-out forwards; }
+    .animate-slide-right { animation: slideInRight 0.8s ease-out forwards; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-600 { animation-delay: 0.6s; }
+    .delay-700 { animation-delay: 0.7s; }
+    .delay-800 { animation-delay: 0.8s; }
+    /* Gold underline hover effect */
+    .gold-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .gold-underline::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #D4AF37;
+      transition: width 0.3s ease;
+    }
+    .gold-underline:hover::after {
+      width: 100%;
+    }
+    /* Card hover glow */
+    .card-glow {
+      transition: all 0.4s ease;
+    }
+    .card-glow:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(10, 61, 46, 0.15), 0 0 0 2px #D4AF37;
+    }
+    /* Image zoom on hover */
+    .img-zoom {
+      overflow: hidden;
+    }
+    .img-zoom img {
+      transition: transform 0.6s ease;
+    }
+    .img-zoom:hover img {
+      transform: scale(1.1);
+    }
+    /* Button shimmer */
+    .btn-shimmer {
+      background: linear-gradient(90deg, #D4AF37 0%, #E8C94A 50%, #D4AF37 100%);
+      background-size: 200% auto;
+      transition: all 0.3s ease;
+    }
+    .btn-shimmer:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+    /* Subtle pattern overlay */
+    .pattern-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    /* Scroll reveal using CSS animation on visible elements */
+    .reveal {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    /* Hamburger menu CSS-only */
+    .menu-toggle:checked ~ .mobile-menu {
+      max-height: 500px;
+      opacity: 1;
+    }
+    .menu-toggle:checked ~ .hamburger-icon .bar1 {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-toggle:checked ~ .hamburger-icon .bar2 {
+      opacity: 0;
+    }
+    .menu-toggle:checked ~ .hamburger-icon .bar3 {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+    .mobile-menu {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+    }
+    .hamburger-icon .bar1,
+    .hamburger-icon .bar2,
+    .hamburger-icon .bar3 {
+      transition: all 0.3s ease;
+    }
+    /* Testimonial scroll */
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .testimonial-scroll {
+      animation: scroll 30s linear infinite;
+    }
+    .testimonial-scroll:hover {
+      animation-play-state: paused;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-brand-cream text-brand-charcoal min-h-screen flex flex-col">
+
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-brand-green/95 backdrop-blur-sm shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center">
+          <span class="text-brand-green font-heading font-bold text-lg">O</span>
+        </div>
+        <div>
+          <span class="text-white font-heading text-xl font-bold tracking-wide">Olev Exclusive</span>
+          <span class="hidden sm:block text-brand-gold text-xs tracking-widest uppercase">Embody & Walk in Perfection</span>
+        </div>
+      </a>
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="text-brand-gold hover:text-brand-gold transition-colors duration-300 gold-underline font-medium">Home</a>
+        <a href="catalogue.html" class="text-white hover:text-brand-gold transition-colors duration-300 gold-underline font-medium">Catalogue</a>
+        <a href="about.html" class="text-white hover:text-brand-gold transition-colors duration-300 gold-underline font-medium">About</a>
+        <a href="services.html" class="text-white hover:text-brand-gold transition-colors duration-300 gold-underline font-medium">Services</a>
+        <a href="contact.html" class="text-brand-green bg-brand-gold hover:bg-brand-gold-light px-6 py-2.5 rounded font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-brand-gold/30">Contact</a>
+      </div>
+      <!-- Mobile Menu Toggle -->
+      <div class="md:hidden relative">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle hidden">
+        <label for="menu-toggle" class="hamburger-icon cursor-pointer flex flex-col space-y-1.5 p-2" aria-label="Toggle navigation menu">
+          <span class="bar1 block w-6 h-0.5 bg-white"></span>
+          <span class="bar2 block w-6 h-0.5 bg-white"></span>
+          <span class="bar3 block w-6 h-0.5 bg-white"></span>
+        </label>
+        <div class="mobile-menu absolute right-0 top-12 w-56 bg-brand-green rounded-lg shadow-xl border border-brand-gold/20">
+          <div class="py-2">
+            <a href="index.html" class="block px-6 py-3 text-brand-gold hover:bg-brand-gold/10 transition-colors">Home</a>
+            <a href="catalogue.html" class="block px-6 py-3 text-white hover:bg-brand-gold/10 hover:text-brand-gold transition-colors">Catalogue</a>
+            <a href="about.html" class="block px-6 py-3 text-white hover:bg-brand-gold/10 hover:text-brand-gold transition-colors">About</a>
+            <a href="services.html" class="block px-6 py-3 text-white hover:bg-brand-gold/10 hover:text-brand-gold transition-colors">Services</a>
+            <a href="contact.html" class="block px-6 py-3 text-brand-gold font-semibold hover:bg-brand-gold/10 transition-colors">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Spacer for fixed nav -->
+<div class="h-20"></div>
+
+<main class="flex-grow">
+  <!-- 1. HERO SECTION -->
+  <section class="relative min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden bg-brand-green text-white">
+    <!-- Hero Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1621786030484-4c855abb6269?w=1920&q=80" 
+           alt="Nigerian Fashion and Tailoring by Olev Exclusive" 
+           class="w-full h-full object-cover object-center scale-105 animate-fade-in filter brightness-75">
+      <!-- Dark overlay gradient -->
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-green via-brand-green/80 to-brand-green/60"></div>
+    </div>
+
+    <!-- Centered Hero Content -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div class="inline-flex items-center space-x-3 mb-6 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 animate-fade-in-up">
+        <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+        <span class="text-xs sm:text-sm tracking-widest uppercase font-semibold text-brand-gold">Haute Couture & Bespoke Tailoring</span>
+      </div>
+
+      <h1 class="font-heading text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6 animate-fade-in-up delay-200 leading-tight">
+        Olev Exclusive
+      </h1>
+
+      <p class="font-heading italic text-xl sm:text-2xl md:text-3xl text-brand-gold mb-8 max-w-2xl mx-auto animate-fade-in-up delay-300">
+        "Embody & Walk in Perfection"
+      </p>
+
+      <p class="text-gray-200 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light animate-fade-in-up delay-400">
+        Experience artisanal Nigerian luxury wear crafted meticulously for distinguished men and women. Uniting timeless African heritage with contemporary master tailoring.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 animate-fade-in-up delay-500">
+        <a href="catalogue.html" class="w-full sm:w-auto btn-shimmer px-8 py-4 rounded text-brand-green font-bold text-base tracking-wide uppercase shadow-lg transition-all">
+          Shop Collection
+        </a>
+        <a href="contact.html" class="w-full sm:w-auto px-8 py-4 rounded border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-semibold text-base tracking-wide uppercase transition-all duration-300 backdrop-blur-xs">
+          Book Appointment
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none animate-float">
+      <span class="text-brand-gold/80 text-xs tracking-widest uppercase mb-1">Scroll to Explore</span>
+      <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 2. FEATURED COLLECTIONS -->
+  <section class="py-24 bg-white pattern-overlay">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-brand-gold uppercase tracking-widest text-xs font-bold block mb-2">Curated Elegance</span>
+        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-brand-green mb-4">
+          <span class="gold-underline">Featured Collections</span>
+        </h2>
+        <p class="text-gray-600 text-base sm:text-lg">
+          Discover our signature garments crafted from the finest materials with world-class bespoke artistry.
+        </p>
+      </div>
+
+      <!-- Grid of 6 product cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        <!-- Product 1 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1590330297626-d7aff25a0431?w=600&q=80" 
+                 alt="Royal Agbada Set - Nigerian Men's Formal Wear" 
+                 class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-brand-green/90 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+              Signature
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Royal Agbada Set</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦185,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Handcrafted excellence for the distinguished gentleman, featuring intricate embroidery on premium damask.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" 
+                 alt="Executive Senator Suit - Modern Nigerian Tailoring" 
+                 class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-brand-green/90 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+              Popular
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Executive Senator Suit</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦95,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Modern sophistication meets traditional craftsmanship with razor-sharp lines and breathable Italian wool blends.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?w=600&q=80" 
+                 alt="Ankara Duo Collection - Contemporary African Prints" 
+                 class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-brand-green/90 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+              New Arrival
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Ankara Duo Collection</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦65,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Vibrant prints, contemporary styling, and authentic wax motifs curated for modern couples and tastemakers.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80" 
+                 alt="Premium Kaftan - Elegant Traditional African Attire" 
+                 class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Premium Kaftan</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦120,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Flowing elegance for every occasion, tailored with silk accents and subtle neck embroidery.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80" 
+                 alt="Classic Native Wear - Tailored Nigerian Fashion" 
+                 class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Classic Native Wear</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦78,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Timeless Nigerian style refined for effortless weekend celebrations and grand family milestones.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="bg-brand-cream rounded-xl overflow-hidden card-glow border border-brand-gold/20 flex flex-col">
+          <div class="img-zoom relative aspect-[4/5] bg-gray-100">
+            <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=600&q=80" 
+                 alt="Bespoke Custom Suit - Made to Measure Luxury Suit" 
+                 class="w-full h-full object-cover">
+            <div class="absolute top-4 left-4 bg-brand-green/90 text-brand-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+              Bespoke
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-heading text-xl font-bold text-brand-green">Bespoke Custom Suit</h3>
+              <span class="font-bold text-brand-gold text-lg whitespace-nowrap">₦250,000</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+              Tailored to your exact specifications with imported Cashmere & Merino wool, hand-stitched lapels and personalized lining.
+            </p>
+            <a href="catalogue.html" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded border border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium text-sm transition-colors duration-300">
+              View Details
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="text-center mt-14">
+        <a href="catalogue.html" class="inline-flex items-center space-x-2 text-brand-green hover:text-brand-gold font-heading font-semibold text-lg transition-colors gold-underline">
+          <span>Explore Complete Catalogue</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. WHY CHOOSE US -->
+  <section class="py-24 bg-brand-cream pattern-overlay border-y border-brand-gold/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-brand-gold uppercase tracking-widest text-xs font-bold block mb-2">The Olev Standard</span>
+        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-brand-green mb-4">
+          Why Choose Olev Exclusive
+        </h2>
+        <p class="text-gray-600 text-base sm:text-lg">
+          We combine ancestral sartorial discipline with contemporary elegance, ensuring perfection in every stitch.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white/80 backdrop-blur-xs p-8 rounded-xl border border-brand-gold/20 shadow-sm text-center hover:border-brand-gold transition-all duration-300 hover:-translate-y-1">
+          <div class="w-16 h-16 mx-auto mb-6 bg-brand-green/10 rounded-full flex items-center justify-center text-3xl text-brand-green">
+            ✂️
+          </div>
+          <h3 class="font-heading text-xl font-bold text-brand-green mb-3">Master Craftsmanship</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Every garment is meticulously hand-cut and crafted by tailors with decades of specialized bespoke experience.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white/80 backdrop-blur-xs p-8 rounded-xl border border-brand-gold/20 shadow-sm text-center hover:border-brand-gold transition-all duration-300 hover:-translate-y-1">
+          <div class="w-16 h-16 mx-auto mb-6 bg-brand-green/10 rounded-full flex items-center justify-center text-3xl text-brand-green">
+            🧵
+          </div>
+          <h3 class="font-heading text-xl font-bold text-brand-green mb-3">Premium Fabrics</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Sourced exclusively from world-renowned mills across Europe and authentic heritage textile masters in West Africa.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white/80 backdrop-blur-xs p-8 rounded-xl border border-brand-gold/20 shadow-sm text-center hover:border-brand-gold transition-all duration-300 hover:-translate-y-1">
+          <div class="w-16 h-16 mx-auto mb-6 bg-brand-green/10 rounded-full flex items-center justify-center text-3xl text-brand-green">
+            📐
+          </div>
+          <h3 class="font-heading text-xl font-bold text-brand-green mb-3">Perfect Custom Fit</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Comprehensive 30-point anatomical measurement process guaranteeing an impeccable silhouette for your posture.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white/80 backdrop-blur-xs p-8 rounded-xl border border-brand-gold/20 shadow-sm text-center hover:border-brand-gold transition-all duration-300 hover:-translate-y-1">
+          <div class="w-16 h-16 mx-auto mb-6 bg-brand-green/10 rounded-full flex items-center justify-center text-3xl text-brand-green">
+            🇳🇬
+          </div>
+          <h3 class="font-heading text-xl font-bold text-brand-green mb-3">Nigerian Heritage</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Celebrating rich African prestige and regal silhouettes designed for the world stage with uncompromised pride.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TESTIMONIALS -->
+  <section class="py-24 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 text-center">
+      <span class="text-brand-gold uppercase tracking-widest text-xs font-bold block mb-2">Client Accolades</span>
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-brand-green mb-4">
+        <span class="gold-underline">Words from Our Patrons</span>
+      </h2>
+      <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
+        Join the distinguished dignitaries, executives, and leaders who trust Olev Exclusive.
+      </p>
+    </div>
+
+    <!-- Continuous Scrolling Testimonials Container -->
+    <div class="relative w-full overflow-hidden py-4">
+      <!-- Gradient Fades on edges -->
+      <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+      <div class="flex space-x-6 testimonial-scroll w-max">
+        <!-- Testimonial 1 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "The craftsmanship is unmatched. My agbada from Olev Exclusive turned heads at the wedding. The embroidery details are phenomenal."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              AO
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Chief Adebayo O.</h4>
+              <p class="text-xs text-gray-500">Lagos, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "They understood exactly what I wanted. The attention to detail is remarkable. My custom outfit was delivered right on schedule."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              FA
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Mrs. Funke A.</h4>
+              <p class="text-xs text-gray-500">Abuja, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "Best senator suit I've ever owned. The fit is absolutely perfect, and the fabric feels both luxurious and breathable."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              CN
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Engr. Chukwuemeka N.</h4>
+              <p class="text-xs text-gray-500">Port Harcourt, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 4 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "From fabric selection to final fitting, the experience was truly premium. The staff in Lekki treats you like royalty."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              AM
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Barr. Aisha M.</h4>
+              <p class="text-xs text-gray-500">Victoria Island, Lagos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate Set for Continuous Loop -->
+        <!-- Duplicate 1 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "The craftsmanship is unmatched. My agbada from Olev Exclusive turned heads at the wedding. The embroidery details are phenomenal."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              AO
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Chief Adebayo O.</h4>
+              <p class="text-xs text-gray-500">Lagos, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate 2 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "They understood exactly what I wanted. The attention to detail is remarkable. My custom outfit was delivered right on schedule."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              FA
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Mrs. Funke A.</h4>
+              <p class="text-xs text-gray-500">Abuja, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate 3 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "Best senator suit I've ever owned. The fit is absolutely perfect, and the fabric feels both luxurious and breathable."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              CN
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Engr. Chukwuemeka N.</h4>
+              <p class="text-xs text-gray-500">Port Harcourt, Nigeria</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate 4 -->
+        <div class="w-80 sm:w-96 bg-brand-cream p-8 rounded-xl border border-brand-gold/20 shadow-sm flex-shrink-0">
+          <div class="text-brand-gold text-xl mb-3">★★★★★</div>
+          <p class="text-gray-700 italic text-sm sm:text-base leading-relaxed mb-6 font-serif">
+            "From fabric selection to final fitting, the experience was truly premium. The staff in Lekki treats you like royalty."
+          </p>
+          <div class="flex items-center space-x-3 border-t border-brand-gold/20 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-green text-brand-gold font-bold flex items-center justify-center font-heading text-sm">
+              AM
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-brand-green text-sm">Barr. Aisha M.</h4>
+              <p class="text-xs text-gray-500">Victoria Island, Lagos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CTA BANNER -->
+  <section class="py-20 bg-brand-green relative overflow-hidden text-white">
+    <!-- Background accents -->
+    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-brand-green-light/40 blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-brand-gold/10 blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">
+        Ready to Experience Perfection?
+      </h2>
+      <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8 font-light">
+        Book your consultation today and discover why Nigeria’s most refined figures choose Olev Exclusive.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+        <a href="contact.html" class="w-full sm:w-auto btn-shimmer px-8 py-4 rounded text-brand-green font-bold text-base tracking-wide uppercase shadow-lg transition-all">
+          Book Now
+        </a>
+        <a href="catalogue.html" class="w-full sm:w-auto px-8 py-4 rounded border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-green font-semibold text-base tracking-wide uppercase transition-all duration-300">
+          View Catalogue
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-brand-green text-white">
+  <!-- Gold divider line -->
+  <div class="h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center space-x-2 mb-4">
+          <div class="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center">
+            <span class="text-brand-green font-heading font-bold text-lg">O</span>
+          </div>
+          <span class="font-heading text-xl font-bold">Olev Exclusive</span>
+        </div>
+        <p class="text-brand-gold italic font-heading text-sm mb-4">"Embody & Walk in Perfection"</p>
+        <p class="text-gray-300 text-sm leading-relaxed">Premium Nigerian tailoring, crafting elegance for the modern African gentleman and woman.</p>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h4 class="font-heading text-lg font-semibold mb-4 text-brand-gold">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors text-sm">Home</a></li>
+          <li><a href="catalogue.html" class="text-gray-300 hover:text-brand-gold transition-colors text-sm">Catalogue</a></li>
+          <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors text-sm">About Us</a></li>
+          <li><a href="services.html" class="text-gray-300 hover:text-brand-gold transition-colors text-sm">Services</a></li>
+          <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors text-sm">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact Info -->
+      <div>
+        <h4 class="font-heading text-lg font-semibold mb-4 text-brand-gold">Contact Us</h4>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-brand-gold mt-0.5">📍</span>
+            <span>15 Admiralty Way, Lekki Phase 1, Lagos, Nigeria</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="text-brand-gold">📞</span>
+            <span>+234 812 345 6789</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="text-brand-gold">✉️</span>
+            <span>info@olevexclusive.com</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="text-brand-gold">💬</span>
+            <span>WhatsApp: +234 812 345 6789</span>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Social & Hours -->
+      <div>
+        <h4 class="font-heading text-lg font-semibold mb-4 text-brand-gold">Follow Us</h4>
+        <div class="flex space-x-4 mb-6">
+          <a href="#" class="w-10 h-10 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-brand-green transition-all duration-300" aria-label="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-brand-green transition-all duration-300" aria-label="Facebook">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-brand-green transition-all duration-300" aria-label="Twitter/X">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold hover:bg-brand-gold hover:text-brand-green transition-all duration-300" aria-label="WhatsApp">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+        <h4 class="font-heading text-sm font-semibold mb-2 text-brand-gold">Opening Hours</h4>
+        <ul class="text-sm text-gray-300 space-y-1">
+          <li>Mon – Fri: 9:00 AM – 7:00 PM</li>
+          <li>Saturday: 10:00 AM – 6:00 PM</li>
+          <li>Sunday: By Appointment Only</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Bottom bar -->
+    <div class="mt-12 pt-8 border-t border-brand-gold/20 flex flex-col md:flex-row items-center justify-between text-sm text-gray-400">
+      <p>&copy; 2026 Olev Exclusive. All rights reserved.</p>
+      <p class="mt-2 md:mt-0 text-brand-gold italic font-heading">"Embody & Walk in Perfection"</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
